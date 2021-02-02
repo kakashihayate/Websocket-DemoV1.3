@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--// Basic Page Needs
+    ================================================== -->
+    <title>Admin Login</title>
+    <!--// Mobile Specific Metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!--// Favicon
+    ================================================== -->
+    <link rel="shortcut icon" href="images/favicon-16x16.png">
+    <!--// CSS
+    ================================================== -->
+    <!--// Global CSS Compulsory (Do not remove)
+    ================================================== -->
+    <link rel="stylesheet" href="/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/all.min.css">
+
+    <!--// Page CSS Implementing Plugins (Remove the plugin CSS here if site does not use that feature)
+    ================================================== -->
+    <link rel="stylesheet" href="css/animate.min.css">
+    <!--// Template Style
+    ================================================== -->
+    <link rel="stylesheet" href="css/style.css">
+<style>
+  .blink_me {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+</style>
+</head>
+<body id="Home">
+
+<div class="login">
+  <h1>Login to Web App</h1>
+  <form  action="" onsubmit="adminLogin()">
+    <p><input type="text" name="login" value="" id="username" onkeypress="return IsAlphaNumeric(event)" placeholder="Username" required></p>
+    <p><input type="password" name="password" id="password" onkeypress="return IsAlphaNumeric(event)" value="" placeholder="Password" required></p>
+    <p class="submit"><input type="submit" value="Login"></p>
+  </form>
+</div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script>
+  $(window).on('load', function() {
+    var login = localStorage.getItem("login");
+    var url = 'http://192.168.1.82:9898/admindashboard';
+    if(login)
+    window.location = url;
+})
+ function IsAlphaNumeric(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57) && (charCode < 65 || charCode > 90) && (charCode < 97 || charCode > 122)) {
+                return false;
+            }
+            return true;
+        }
+
+  const adminLogin = function() {
+  var username = $("#username").val();
+  var password = $("#password").val();
+  if(username == 'keyadmin' && password=='key123')
+  {
+  localStorage.setItem("login", true);
+  console.log({username:username,password:password});
+  $.ajax({url: "http://192.168.1.82:9898/admindashboard", 
+            type: 'GET',
+    success: function(result){
+      $("#username").val('');
+      $("#password").val('');
+  }
+  });
+}
+else{
+  $("#username").val('');
+  $("#password").val('');
+  alert('Login Failed Please Try Again!!')
+}
+}
+ </script>       
+</html>
